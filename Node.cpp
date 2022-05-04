@@ -1,6 +1,8 @@
 #include "include.h"
     Node::Node()
     {
+        gallons = 0;
+        served = 0;
         visited = 0;
     }
     Node::Node(double _gallons, int _served)
@@ -13,7 +15,7 @@
     {
         gallons = _gallons;
     }
-    double Node::get_gallons() const
+    double Node::get_gallons() 
     {
         return gallons;
     }
@@ -21,7 +23,7 @@
     {
         served = _served;
     }
-    int Node::get_served()const
+    int Node::get_served()
     {
         return served;
     }
@@ -29,7 +31,7 @@
     {
         visited = _visited;
     }
-    int Node::get_visited()const
+    int Node::get_visited()
     {
         return visited;
     } 

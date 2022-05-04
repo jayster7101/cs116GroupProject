@@ -80,3 +80,37 @@ int path()
     return decision;
 
 }
+
+void read_line(std::string file, Node** matrix)
+{
+    std::ifstream in;
+    in.open(file);
+    std::string Ssize_of_matrix;
+    getline(in,Ssize_of_matrix);
+    int size_of_matrix = std::stoi(Ssize_of_matrix);
+
+    for(int i = 0; i < size_of_matrix; i++)
+    {
+        matrix[i] = new Node[size_of_matrix];
+    }
+    std::string line;
+    for (int i = 0; i < size_of_matrix; i++)
+    {
+        getline(in,line);
+        parse_line(line, i, size_of_matrix, matrix);
+    }
+}
+void parse_line(std::string line, int position, int size, Node** matrix)
+{
+    std::stringstream ss(line);
+
+    for(int i = 0; i < size; i++)
+    {
+       
+        double gallons;
+        int served;
+        ss >> gallons >> served;
+        matrix[position][i] = Node(gallons,served);
+    }
+    
+}

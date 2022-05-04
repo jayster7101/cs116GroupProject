@@ -6,11 +6,11 @@ class Node
     Node();
     Node(double, int);
     void set_gallons(double);
-    double get_gallons() const;
+    double get_gallons() ;
     void set_served(int);
-    int get_served()const;
+    int get_served() ;
     void set_visited(int);
-    int get_visited()const;
+    int get_visited();
 
     private:
     double gallons;
