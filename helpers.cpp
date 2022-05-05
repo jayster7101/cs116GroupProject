@@ -100,6 +100,14 @@ void read_line(std::string file, Node** matrix)
         parse_line(line, i, size_of_matrix, matrix);
     }
 }
+/**
+ * @brief 
+ * 
+ * @param line 
+ * @param position 
+ * @param size 
+ * @param matrix 
+ */
 void parse_line(std::string line, int position, int size, Node** matrix)
 {
     std::stringstream ss(line);
@@ -113,4 +121,56 @@ void parse_line(std::string line, int position, int size, Node** matrix)
         matrix[position][i] = Node(gallons,served);
     }
     
+}
+
+void path_find_s(double &gas, int capacity, Node** matrix, Position <int> current)
+{
+    //PASS IN SIZE
+    int SIZE = 5;
+  int current_capacity;
+  gas = gas - matrix[0][0].get_gallons();
+ // std::cout << "starting gas" << gas;
+  Position<int> temp = current;
+  temp.set_value(100000);
+  while( gas > 0 )//|| current_capacity < capacity)
+  {
+      // std::cout << "current gas " << gas;
+       Position<int> picked(0);
+       Position <int> up = temp.next_s( temp.get_x(),  (temp.get_y() - 1),  SIZE,  matrix);
+       picked = up;
+       Position <int> up_right = temp.next_s( temp.get_x() + 1,  (temp.get_y() - 1),  SIZE,  matrix);
+       Position <int> right = temp.next_s( temp.get_x() + 1,  (temp.get_y()),  SIZE,  matrix);
+       Position <int> right_down = temp.next_s( temp.get_x() + 1 ,  (temp.get_y() + 1),  SIZE,  matrix);
+       Position <int> down = temp.next_s( temp.get_x(),  (temp.get_y() + 1),  SIZE,  matrix);
+       Position <int> left_down = temp.next_s( temp.get_x() - 1,  (temp.get_y() + 1),  SIZE,  matrix);
+       Position <int> left = temp.next_s( temp.get_x() -1 ,  (temp.get_y() ),  SIZE,  matrix);
+       Position <int> left_up = temp.next_s( temp.get_x() -1,  (temp.get_y() +1 ),  SIZE,  matrix);
+       Position<int> arr[] = {up, up_right,right,right_down,down,left_down,left,left_up};
+        for(int i = 0; i < 8; i++)
+        {
+             std::cout << "\nvalues "<< arr[i].get_value() << " ";
+            if(picked.get_value() < arr[i+1].get_value()) // && not -1
+            {
+                picked = arr[i];
+               // std::cout << "Picked " << picked.get_x() << " " << picked.get_x() << picked.get_value() << "\n";
+            }
+        }
+        gas -= matrix[picked.get_x()][picked.get_y()].get_gallons();
+        capacity -= matrix[picked.get_x()][picked.get_y()].get_served();
+        temp = picked;
+
+
+    /**
+     * @brief 
+     * compare all data and find biggest 
+     * subtract gas at that node
+     * subtract people served at that node from capacity 
+     * change the temp node, to the new nodes position
+     * run algo again while still in loop
+     * 
+     */
+    //std::cout << right.get_x() << ", " << right.get_y() << "\n";
+  }
+
+
 }

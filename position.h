@@ -13,27 +13,50 @@
  *  would be of type int or double and wouldn't want to perform wrong opperation
  * 
  */
- // ONLY USED FOR DEVELOPMENT 
 
-template <typename T>
+template <class T>
 class Position
  {
-    public:
-   Position();
-   Position<T> get_value(); // will be used to get the value wether it be int or double
+  public:
+    //Position<T> (T _value);
+    // Position(T _value,int x,int y); *** working ***
+    Position(T value);
+    T get_value(); // will be used to get the value wether it be int or double
 
-   Position<T> next_s(int, int, Node**);
-    Position<T> next_g(int, int, Node**);
+    Position<T> next_s(int, int, int,  Node**);
+    Position<T> next_g(int, int, int,  Node**);
 
-    int get_x() const;
-    int get_y() const;
+    int get_x();
+    int get_y();
+    void set_value(T);
 
-    private:
+  private:
     int x;
     int y;
-     T value; // change to T if creating a template class
+    T value; // change to T if creating a template class
 };
+//WORKINNG
+// template<class T>
+// Position<T>::Position(T _value, int x, int y)
+// {
+//   x = 0;
+//   y = 0;
+//   value = _value;
+// };
+template<typename T>
+void Position<T>::set_value(T value)
+{
+    this->value = value;
+}
 
+template<class T>
+Position<T>::Position(T value)
+{
+  //dynamically assign x and y later
+  x = 0;
+  y = 0;
+  this->value = value;
+};
 // /**
 //  * @warning when calling this function, be sure to initialize 
 //  * 
@@ -42,27 +65,27 @@ class Position
 //  * @param y 
 //  * @return Position<T> 
 //  */
-template<typename T>
-Position<T> next_s(int x, int y, int SIZE, Node** matrix) // when passing in x and y values,  call function like this Position<type>next( <current x position +- # >, <current y position +- #>, T)
+template <class T>
+Position<T> Position<T>::next_s(int _x, int _y, int SIZE, Node** matrix) // when passing in x and y values,  call function like this Position<type>next( <current x position +- # >, <current y position +- #>, T)
 {
-    Position<T> temp;
+    Position<T> temp(1000);
     if( ( x >= 0 ) && ( x < SIZE ) && ( y >= 0 ) && (y < SIZE ) ) // if in bounds of array continue 
     {
-        temp->x = x; // change 
-        temp->y = y;
-        temp->value = matrix[x][y].get_served();
+        temp.x = _x; // change 
+        temp.y = _y;
+        temp.value = matrix[x][y].get_served();
     }
     else
     {
-        temp->value = -1;
+        temp.value = -1;
     }
     return temp;
-}
+};
 
-template<typename T>
+template<class T>
 Position<T> next_g(int x, int y, int SIZE, Node** matrix) // when passing in x and y values,  call function like this Position<type>next( <current x position +- # >, <current y position +- #>, T)
-{
-    Position<T> temp;
+{// lets try and get the constructor working first 
+    Position<T> temp(10000);
     if( ( x >= 0 ) && ( x < SIZE ) && ( y >= 0 ) && (y < SIZE ) ) // if in bounds of array continue 
     {
         temp->x = x; // change 
@@ -74,6 +97,22 @@ Position<T> next_g(int x, int y, int SIZE, Node** matrix) // when passing in x a
         temp->value = -1; // means that no spot exists , x and y coordinates will be the same from which parent node calls, each iteration of algo will have parent node, which is the previous selected node 
     }
     return temp; // returns a position type with new data or returns the parent node aka prevous iteration nodes x and y values, but will have value set to -1
+};
+template<class T>
+int Position<T>::get_x()
+{
+    return x;
+}
+template<class T>
+int Position<T>::get_y()
+{
+    return y;
+}
+template<class T>
+T Position<T>::get_value()
+{
+    return value;
 }
 
 #endif
+
